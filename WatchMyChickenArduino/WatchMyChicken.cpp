@@ -10,34 +10,46 @@
   */
   double WatchMyChicken::getFoodTankState()
   {
-    return getFoodTankDistance();
+    double distance = getTankDistance(TRIG_PIN_FOOD_TANK, ECHO_PIN_FOOD_TANK);
+
+    //it's necessary apply more calculus
+
+    return distance;
   }
 
-  
-  double WatchMyChicken::getFoodTankDistance()
+  /*
+  * Get the actual state of the water tank (0 - 100%)
+  */
+  double WatchMyChicken::getWaterTankState()
+  {
+    double distance = getTankDistance(TRIG_PIN_WATER_TANK, ECHO_PIN_WATER_TANK);
+
+    //it's necessary apply more calculus
+
+    return distance;
+  }
+
+  double WatchMyChicken::getTankDistance(int trigPinTank, int echoPinTank)
   {
     // Clears the trigPin
-    digitalWrite(trigPinFoodTank, LOW);
+    digitalWrite(trigPinTank, LOW);
     delayMicroseconds(2);
     // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPinFoodTank, HIGH);
+    digitalWrite(trigPinTank, HIGH);
     delayMicroseconds(10);
-    digitalWrite(trigPinFoodTank, LOW);
+    digitalWrite(trigPinTank, LOW);
     // Reads the echoPin, returns the sound wave travel time in microseconds
-    long duration = pulseIn(echoPinFoodTank, HIGH);
+    long duration = pulseIn(echoPinTank, HIGH);
 
-    return getSoundAirCalculedDistance(duration);
-  }
-
-
-  double WatchMyChicken::getSoundAirCalculedDistance(long duration)
-  {
     return duration*SOUND_AIR_SPEED/2;
   }
 
-  double WatchMyChicken::getSoundWaterCalculedDistance(long duration)
+  double WatchMyChicken::getActualTemperature()
   {
-    return duration*SOUND_AIR_SPEED/2;
-  }
+    int value=analogRead(TEMPERATURE_PIN_SENSOR);
+    double volts=(value/1024.0)*5.0;
+    double temperature = volts*100.0;
 
+    return temperature;
+  }
   

@@ -8,11 +8,13 @@ class WatchMyChicken
   public:
     WatchMyChicken();
     double getFoodTankState();
+    double getWaterTankState();
+    double getActualTemperature();
     
   private:
     double getFoodTankDistance();
-    double getSoundAirCalculedDistance(long duration);
-    double getSoundWaterCalculedDistance(long duration);
+    double getWaterTankDistance();
+    double getTankDistance(int trigPinTank, int echoPinTank);
     
     
     //int privateVar; //a private var
