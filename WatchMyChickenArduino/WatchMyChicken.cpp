@@ -1,8 +1,10 @@
 #include "WatchMyChicken.h"
-#include "Utils.h"
 
-  WatchMyChicken::WatchMyChicken(){
-    //privateVar = 0;
+  // Connected to L298N Motor Driver In1, In2, In3, In4 
+  // Pins entered in sequence 1-2-3-4 for proper step sequencing
+  Stepper stepperMotorFood(STEPPER_STEPS_PER_REV, STEPPER_MOTOR_IN1, STEPPER_MOTOR_IN2, STEPPER_MOTOR_IN3, STEPPER_MOTOR_IN4);
+    
+  WatchMyChicken::WatchMyChicken(){    
   }
 
   /*
@@ -51,5 +53,22 @@
     double temperature = volts*100.0;
 
     return temperature;
+  }
+
+  bool WatchMyChicken::feedsTheChickens()
+  {
+    int numberOfSteps;
+    
+    if(definedStepsByConfig == 0)
+      numberOfSteps = NUMBER_STEPS_DEFAULT;
+    else
+      numberOfSteps = definedStepsByConfig;
+    
+    stepperMotorFood.setSpeed(STEPPER_SPEED);
+    
+    // step 1/100 of a revolution:
+    stepperMotorFood.step(STEPPER_STEPS_PER_REV / 100 * numberOfSteps);
+
+    return true;    
   }
   
