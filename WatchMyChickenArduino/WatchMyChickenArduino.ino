@@ -1,6 +1,4 @@
 #include "WatchMyChicken.h"
-#include "Utils.h"
-
 
 WatchMyChicken watchMyChicken; //the object which control the system
 
@@ -34,6 +32,9 @@ void loop() {
   double actualTemperature = watchMyChicken.getActualTemperature();
   Serial.print("Actual Temperature: ");
   Serial.println(actualTemperature);
+
+  watchMyChicken.feedsTheChickens();
+  Serial.println("Was feeded the chickens");
   
-  delay(1000);
+  delay(5000);
 }
