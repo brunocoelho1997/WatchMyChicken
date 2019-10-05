@@ -55,14 +55,19 @@
     return temperature;
   }
 
+
+/*
+ * 
+ * All methods of step motor (which it feed the chickens)
+ * 
+ * 
+ */
+  
   bool WatchMyChicken::feedsTheChickens()
   {
     int numberOfSteps;
-    
-    if(definedStepsByConfig == 0)
-      numberOfSteps = NUMBER_STEPS_DEFAULT;
-    else
-      numberOfSteps = definedStepsByConfig;
+
+    numberOfSteps == 0 ? NUMBER_STEPS_DEFAULT : definedStepsByConfig;
     
     stepperMotorFood.setSpeed(STEPPER_SPEED);
     
@@ -71,4 +76,68 @@
 
     return true;    
   }
+
+  int WatchMyChicken::getActualConfigNumberOfStepsMotor()
+  {
+    return definedStepsByConfig == 0 ? NUMBER_STEPS_DEFAULT : definedStepsByConfig;
+  }
+
+  bool WatchMyChicken::increaseNumberOfSteps()
+  {
+    
+    definedStepsByConfig = definedStepsByConfig + STEPPER_CONFIG_INTERVAL; 
+
+    return true;
+  }
+
+  bool WatchMyChicken::decreaseNumberOfSteps()
+  {
+    
+    definedStepsByConfig = definedStepsByConfig - STEPPER_CONFIG_INTERVAL; 
+
+    return true;
+  }
+
+/*
+ * 
+ * All methods of photocell delta
+ * 
+ */
+
+  bool WatchMyChicken::isNight()
+  {
+    int photocellReading = analogRead(PHOTOCELL_PIN_SENSOR);
+    
+    int photocellDeltaValue = photocellDefinedDelta != 0 ? photocellDefinedDelta : DEFAULT_PHOTOCELL_DELTA;
+
+    Serial.print("Analog reading PHOTOCELL_PIN_SENSOR = ");
+    Serial.println(photocellReading);
+
+    Serial.print("photocellDeltaValue = ");
+    Serial.println(photocellDeltaValue);
+
+    return photocellReading < photocellDeltaValue ? true: false;
+  }
+  
+  int WatchMyChicken::getPhotocellDelta()
+  {
+    return photocellDefinedDelta != 0 ? photocellDefinedDelta : DEFAULT_PHOTOCELL_DELTA;
+  }
+
+  bool WatchMyChicken::increasePhotocellDelta()
+  {
+    
+    photocellDefinedDelta = photocellDefinedDelta + PHOTOCELL_CONFIG_INTERVAL; 
+
+    return true;
+  }
+
+  bool WatchMyChicken::decreasePhotocellDelta()
+  {
+    
+    photocellDefinedDelta = photocellDefinedDelta - PHOTOCELL_CONFIG_INTERVAL; 
+
+    return true;
+  }
+ 
   
