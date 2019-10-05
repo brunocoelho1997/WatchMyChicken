@@ -92,7 +92,9 @@
 
   bool WatchMyChicken::decreaseNumberOfSteps()
   {
-    
+    if(definedStepsByConfig - STEPPER_CONFIG_INTERVAL < 0)
+      return false;
+      
     definedStepsByConfig = definedStepsByConfig - STEPPER_CONFIG_INTERVAL; 
 
     return true;
@@ -110,11 +112,8 @@
     
     int photocellDeltaValue = photocellDefinedDelta != 0 ? photocellDefinedDelta : DEFAULT_PHOTOCELL_DELTA;
 
-    Serial.print("Analog reading PHOTOCELL_PIN_SENSOR = ");
-    Serial.println(photocellReading);
-
-    Serial.print("photocellDeltaValue = ");
-    Serial.println(photocellDeltaValue);
+    //Serial.print("Analog reading PHOTOCELL_PIN_SENSOR = ");
+    //Serial.println(photocellReading);
 
     return photocellReading < photocellDeltaValue ? true: false;
   }
@@ -134,8 +133,53 @@
 
   bool WatchMyChicken::decreasePhotocellDelta()
   {
-    
+    if(photocellDefinedDelta - PHOTOCELL_CONFIG_INTERVAL < 0)
+      return false;
+      
     photocellDefinedDelta = photocellDefinedDelta - PHOTOCELL_CONFIG_INTERVAL; 
+
+    return true;
+  }
+
+
+/*
+ * 
+ * Open water to the chikens
+ * 
+ */
+  bool WatchMyChicken::openTheWater()
+  {
+    
+    digitalWrite(PIN_WATER_RELAY, HIGH);
+
+    int numberOfMiliseconds =  openedWaterMilliSecondsConfig != 0 ? openedWaterMilliSecondsConfig : OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT;
+    
+    delay(numberOfMiliseconds);
+
+    digitalWrite(PIN_WATER_RELAY, LOW);
+    
+    return true;
+  }
+
+  int WatchMyChicken::getTheNumberOfSecondsOpenedWater()
+  {
+    return openedWaterMilliSecondsConfig != 0 ? openedWaterMilliSecondsConfig : OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT;
+  }
+
+  bool WatchMyChicken::increaseNumberOfMilliseconds()
+  {
+    
+    openedWaterMilliSecondsConfig = openedWaterMilliSecondsConfig + MILLISECONDS_CONFIG_INTERVAL; 
+
+    return true;
+  }
+
+  bool WatchMyChicken::decreaseNumberOfMilliseconds()
+  {
+    if(openedWaterMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL < 0)
+      return false;
+      
+    openedWaterMilliSecondsConfig = openedWaterMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL; 
 
     return true;
   }

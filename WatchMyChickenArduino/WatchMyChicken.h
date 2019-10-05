@@ -24,8 +24,12 @@ class WatchMyChicken
     bool increasePhotocellDelta();
     bool decreasePhotocellDelta();
     int getPhotocellDelta();
-    
-    
+
+    bool openTheWater();
+    int getTheNumberOfSecondsOpenedWater();
+    bool increaseNumberOfMilliseconds();
+    bool decreaseNumberOfMilliseconds();
+        
   private:
     /*
      * private vars
@@ -37,6 +41,9 @@ class WatchMyChicken
 
     //delta used by photocell - if it isn't defined it will assume the default (DEFAULT_PHOTOCELL_DELTA) 
     int photocellDefinedDelta;
+
+    //number of seconds that the water will be open
+    int openedWaterMilliSecondsConfig;
     
     
     /*

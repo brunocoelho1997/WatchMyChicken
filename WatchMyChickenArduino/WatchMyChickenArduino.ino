@@ -17,6 +17,9 @@ void setup() {
 
   pinMode(TEMPERATURE_PIN_SENSOR, INPUT);
 
+  pinMode(PIN_WATER_RELAY, OUTPUT);
+
+
 
   pinMode(8, OUTPUT); 
   
@@ -89,8 +92,14 @@ void printConfigCommands()
   Serial.println("1- Config: Increase photocell delta");
   Serial.println("2- Config: Decrease photocell delta");
   
-  Serial.println("3- Config: Set number of steps of step motor");
-  Serial.println("4- Number of seconds water as open");
+  Serial.println("3- Config: Increase number of steps of step motor");
+  Serial.println("4- Config: Decrease number of steps of step motor");
+  Serial.println("5- TEST: feed the chickens");
+  
+  Serial.println("6- Config: Increase number of seconds as open");
+  Serial.println("7- Config: Decrease number of seconds as open");
+  Serial.println("8- TEST: open the water");
+  
   
   Serial.println("4- Calibration: Set as maximum water");
   Serial.println("5- Calibration: Set as minimum water");
@@ -134,12 +143,36 @@ boolean processCommand(String commandTmp)
       return watchMyChicken.decreaseNumberOfSteps();
     break;
     
+    case 5:
+      return watchMyChicken.feedsTheChickens();
+    break;
+
+    case 6:
+      return watchMyChicken.increaseNumberOfMilliseconds();
+    break;
+    
+    case 7:
+      return watchMyChicken.decreaseNumberOfMilliseconds();
+    break;
+    case 8:
+      return watchMyChicken.openTheWater();
+    break;
+
+    
+    
     case 99:
       Serial.println("------------------------------------");
       Serial.print("Actual defined delta of photocell: ");
       Serial.println(watchMyChicken.getPhotocellDelta());
+      
+      Serial.print("Is night: ");
+      Serial.println(watchMyChicken.isNight());
+      
       Serial.print("Actual defined Steps:");
       Serial.println(watchMyChicken.getActualConfigNumberOfStepsMotor());
+
+      Serial.print("Number of milliseconds as open water:");
+      Serial.println(watchMyChicken.getTheNumberOfSecondsOpenedWater());
       
       Serial.println("------------------------------------");
       return true;  
