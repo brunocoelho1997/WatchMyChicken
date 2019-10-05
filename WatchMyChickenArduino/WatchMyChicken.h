@@ -29,12 +29,24 @@ class WatchMyChicken
     int getTheNumberOfSecondsOpenedWater();
     bool increaseNumberOfMilliseconds();
     bool decreaseNumberOfMilliseconds();
+
+    bool calibrateSetMaximumWaterTank();
+    bool calibrateSetMaximumFoodTank();
+
+    bool verifyMinimunFood();
+    
+    bool verifyMinimunWater();
+    
         
   private:
     /*
      * private vars
      * 
      */
+
+    double maximumDistanceWaterTank;
+
+    double maximumDistanceFoodTank;
     
     //number of steps defined by user in his configuration
     int definedStepsByConfig;
@@ -52,7 +64,7 @@ class WatchMyChicken
     double getFoodTankDistance();
     double getWaterTankDistance();
     double getTankDistance(int trigPinTank, int echoPinTank);
-
+    bool verifyMinimumTankState(double actualState, int ledPinToBlink);
     
     
 };

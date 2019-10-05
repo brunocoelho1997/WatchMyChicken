@@ -12,23 +12,55 @@
   */
   double WatchMyChicken::getFoodTankState()
   {
-    double distance = getTankDistance(TRIG_PIN_FOOD_TANK, ECHO_PIN_FOOD_TANK);
+    double actualDistance = getTankDistance(TRIG_PIN_FOOD_TANK, ECHO_PIN_FOOD_TANK);
 
-    //it's necessary apply more calculus
+    if(maximumDistanceFoodTank == 0)
+      return -1;
 
-    return distance;
+    return 100 - ((actualDistance * 100 ) / maximumDistanceFoodTank);
+  }
+  
+  boolean WatchMyChicken::calibrateSetMaximumFoodTank()
+  {
+    maximumDistanceFoodTank = getTankDistance(TRIG_PIN_FOOD_TANK, ECHO_PIN_FOOD_TANK);
+    return true;
   }
 
+  boolean WatchMyChicken::verifyMinimunFood()
+  {
+    double actualDistance = getFoodTankState();
+
+    return verifyMinimumTankState(actualDistance, LED_PIN_LOW_FOOD);
+  }
+
+  
+
+  
+  
   /*
   * Get the actual state of the water tank (0 - 100%)
   */
   double WatchMyChicken::getWaterTankState()
   {
-    double distance = getTankDistance(TRIG_PIN_WATER_TANK, ECHO_PIN_WATER_TANK);
+    double actualDistance = getTankDistance(TRIG_PIN_WATER_TANK, ECHO_PIN_WATER_TANK);
 
-    //it's necessary apply more calculus
+    if(maximumDistanceWaterTank == 0)
+      return -1;
+      
+    return 100 - ((actualDistance * 100 ) / maximumDistanceFoodTank);
+  }
 
-    return distance;
+  boolean WatchMyChicken::calibrateSetMaximumWaterTank()
+  {
+    maximumDistanceWaterTank = getTankDistance(TRIG_PIN_WATER_TANK, ECHO_PIN_WATER_TANK);
+    return true;
+  }
+
+  boolean WatchMyChicken::verifyMinimunWater()
+  {
+    double actualState = getWaterTankState();
+
+    return verifyMinimumTankState(actualState, LED_PIN_LOW_WATER);
   }
 
   double WatchMyChicken::getTankDistance(int trigPinTank, int echoPinTank)
@@ -46,6 +78,18 @@
     return duration*SOUND_AIR_SPEED/2;
   }
 
+  bool WatchMyChicken::verifyMinimumTankState(double actualState, int ledPinToBlink)
+  {
+    if(actualState < MILLISECONDS_CONFIG_MINIMUM_TANK_STATE)
+    {
+      digitalWrite(ledPinToBlink, HIGH);
+      delay(MILLISECONDS_CONFIG_DELAY_LEDS);
+      digitalWrite(ledPinToBlink, LOW);
+      delay(MILLISECONDS_CONFIG_DELAY_LEDS);
+    }
+    return true;
+  }
+  
   double WatchMyChicken::getActualTemperature()
   {
     int value=analogRead(TEMPERATURE_PIN_SENSOR);
@@ -183,5 +227,7 @@
 
     return true;
   }
- 
+
+
+  
   

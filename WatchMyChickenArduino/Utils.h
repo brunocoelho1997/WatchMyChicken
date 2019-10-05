@@ -1,12 +1,19 @@
 //Pins 
 
 //food level sensor pins
-const int TRIG_PIN_FOOD_TANK = 10;
-const int ECHO_PIN_FOOD_TANK = 11;
+const int TRIG_PIN_FOOD_TANK = 9;
+const int ECHO_PIN_FOOD_TANK = 10;
+const int LED_PIN_LOW_FOOD = 8;
 
 //water level sensor pins
 const int TRIG_PIN_WATER_TANK = 12;
 const int ECHO_PIN_WATER_TANK = 13;
+const int LED_PIN_LOW_WATER = 11;
+
+const int MILLISECONDS_CONFIG_DELAY_LEDS = 1000;
+
+//if the percentage of the tank is lower tha  20 the arduino active a led
+const int MILLISECONDS_CONFIG_MINIMUM_TANK_STATE = 20;
 
 //used by water and food level sensor calculus
 const double SOUND_AIR_SPEED = 0.034;

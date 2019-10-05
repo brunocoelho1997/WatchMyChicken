@@ -12,17 +12,16 @@ void setup() {
    */
   pinMode(TRIG_PIN_FOOD_TANK, OUTPUT); 
   pinMode(ECHO_PIN_FOOD_TANK, INPUT);
+  pinMode(LED_PIN_LOW_FOOD, OUTPUT);
+  
   pinMode(TRIG_PIN_WATER_TANK, OUTPUT); 
   pinMode(ECHO_PIN_WATER_TANK, INPUT);
-
+  pinMode(LED_PIN_LOW_WATER, OUTPUT);
+  
   pinMode(TEMPERATURE_PIN_SENSOR, INPUT);
 
   pinMode(PIN_WATER_RELAY, OUTPUT);
 
-
-
-  pinMode(8, OUTPUT); 
-  
   
   Serial.begin(9600); // Starts the serial communication
   Serial.println("Arduino ready to read commands.");
@@ -32,9 +31,6 @@ void setup() {
 void loop() {
 
 /*
-  
-  
-  
   double actualTemperature = watchMyChicken.getActualTemperature();
   Serial.print("Actual Temperature: ");
   Serial.println(actualTemperature);
@@ -77,11 +73,17 @@ void loop() {
       Serial.print("Water Tank State: ");
       Serial.println(waterTankState);
 
-      
+      watchMyChicken.verifyMinimunFood();
+
+      watchMyChicken.verifyMinimunWater();
+
+      /*
+       * 
+  pinMode(8, OUTPUT); 
       digitalWrite(8, HIGH);
       delay(2000);
       digitalWrite(8, LOW);
-      delay(2000);
+      delay(2000);*/
   }
   
 }
@@ -101,10 +103,9 @@ void printConfigCommands()
   Serial.println("8- TEST: open the water");
   
   
-  Serial.println("4- Calibration: Set as maximum water");
-  Serial.println("5- Calibration: Set as minimum water");
-  Serial.println("6- Calibration: Set as maximum feed");
-  Serial.println("7- Calibration: Set as minimum feed");
+  Serial.println("9- Calibration: Set as maximum food");
+  
+  Serial.println("10- Calibration: Set as maximum water");
 
   
   Serial.println("99- Get all configs");
@@ -158,7 +159,13 @@ boolean processCommand(String commandTmp)
       return watchMyChicken.openTheWater();
     break;
 
+    case 9:
+      return watchMyChicken.calibrateSetMaximumFoodTank();
+    break;
     
+    case 10:
+      return watchMyChicken.calibrateSetMaximumWaterTank();
+    break;
     
     case 99:
       Serial.println("------------------------------------");
@@ -176,6 +183,10 @@ boolean processCommand(String commandTmp)
       
       Serial.println("------------------------------------");
       return true;  
+    break;
+
+    case 100:
+      isConfigurationMode = false;
     break;
   }
 
