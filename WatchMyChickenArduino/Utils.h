@@ -1,14 +1,14 @@
 //Pins 
 
 //food level sensor pins
-const int TRIG_PIN_FOOD_TANK = 9;
-const int ECHO_PIN_FOOD_TANK = 10;
-const int LED_PIN_LOW_FOOD = 8;
+const int TRIG_PIN_FOOD_TANK = 10;
+const int ECHO_PIN_FOOD_TANK = 11;
+
+const int LED_PIN_LOW_FOOD_AND_WATER = 1;
 
 //water level sensor pins
 const int TRIG_PIN_WATER_TANK = 12;
 const int ECHO_PIN_WATER_TANK = 13;
-const int LED_PIN_LOW_WATER = 11;
 
 const int MILLISECONDS_CONFIG_DELAY_LEDS = 1000;
 
@@ -43,3 +43,9 @@ const int STEPPER_CONFIG_INTERVAL = 25;
 const int PIN_WATER_RELAY = 6;
 const int OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT = 5000;
 const int MILLISECONDS_CONFIG_INTERVAL = 1000;
+
+//
+const int PIN_OPEN_CLOSE_GATE_RELAY = 7; //if this PIN are setted as low the gate will not open neither close
+const int PIN_OPEN_GATE_RELAY = 8;
+const int PIN_CLOSE_GATE_RELAY = 9;
+const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 3000;

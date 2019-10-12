@@ -30,7 +30,7 @@
   {
     double actualDistance = getFoodTankState();
 
-    return verifyMinimumTankState(actualDistance, LED_PIN_LOW_FOOD);
+    return verifyMinimumTankState(actualDistance, LED_PIN_LOW_FOOD_AND_WATER);
   }
 
   
@@ -60,7 +60,7 @@
   {
     double actualState = getWaterTankState();
 
-    return verifyMinimumTankState(actualState, LED_PIN_LOW_WATER);
+    return verifyMinimumTankState(actualState, LED_PIN_LOW_FOOD_AND_WATER);
   }
 
   double WatchMyChicken::getTankDistance(int trigPinTank, int echoPinTank)
@@ -111,7 +111,7 @@
   {
     int numberOfSteps;
 
-    numberOfSteps == 0 ? NUMBER_STEPS_DEFAULT : definedStepsByConfig;
+    numberOfSteps = definedStepsByConfig == 0 ? NUMBER_STEPS_DEFAULT : definedStepsByConfig;
     
     stepperMotorFood.setSpeed(STEPPER_SPEED);
     
@@ -228,6 +228,41 @@
     return true;
   }
 
+  bool WatchMyChicken::openTheGate()
+  {
+
+    digitalWrite(PIN_OPEN_GATE_RELAY,HIGH);
+  
+    digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,HIGH);
+    
+    delay(MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE);
+  
+    digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
+    
+    digitalWrite(PIN_OPEN_GATE_RELAY, LOW);
+  
+      
+    return true;
+  }
+  
+  bool WatchMyChicken::closeTheGate()
+  {
+
+    digitalWrite(PIN_CLOSE_GATE_RELAY,HIGH);
+  
+    digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,HIGH);
+    
+    delay(MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE);
+  
+    digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
+    
+    digitalWrite(PIN_CLOSE_GATE_RELAY, LOW);
+  
+      
+    return true;
+  }
+
+  
 
   
   

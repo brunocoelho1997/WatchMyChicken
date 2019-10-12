@@ -36,6 +36,10 @@ class WatchMyChicken
     bool verifyMinimunFood();
     
     bool verifyMinimunWater();
+
+    bool openTheGate();
+    bool closeTheGate();
+    
     
         
   private:
@@ -56,6 +60,11 @@ class WatchMyChicken
 
     //number of seconds that the water will be open
     int openedWaterMilliSecondsConfig;
+
+
+    bool isGateClosed;
+    //number of seconds that the motor of the gate will work to open and close
+    int gateMilliSecondsConfig;
     
     
     /*

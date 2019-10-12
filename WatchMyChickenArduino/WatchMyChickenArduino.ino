@@ -12,16 +12,18 @@ void setup() {
    */
   pinMode(TRIG_PIN_FOOD_TANK, OUTPUT); 
   pinMode(ECHO_PIN_FOOD_TANK, INPUT);
-  pinMode(LED_PIN_LOW_FOOD, OUTPUT);
+  pinMode(LED_PIN_LOW_FOOD_AND_WATER, OUTPUT);
   
   pinMode(TRIG_PIN_WATER_TANK, OUTPUT); 
   pinMode(ECHO_PIN_WATER_TANK, INPUT);
-  pinMode(LED_PIN_LOW_WATER, OUTPUT);
   
   pinMode(TEMPERATURE_PIN_SENSOR, INPUT);
 
   pinMode(PIN_WATER_RELAY, OUTPUT);
 
+  pinMode(PIN_OPEN_CLOSE_GATE_RELAY, OUTPUT); 
+  pinMode(PIN_OPEN_GATE_RELAY, OUTPUT); 
+  pinMode(PIN_CLOSE_GATE_RELAY, OUTPUT); 
   
   Serial.begin(9600); // Starts the serial communication
   Serial.println("Arduino ready to read commands.");
@@ -101,12 +103,15 @@ void printConfigCommands()
   Serial.println("6- Config: Increase number of seconds as open");
   Serial.println("7- Config: Decrease number of seconds as open");
   Serial.println("8- TEST: open the water");
-  
-  
+
   Serial.println("9- Calibration: Set as maximum food");
-  
   Serial.println("10- Calibration: Set as maximum water");
 
+  Serial.println("11- Config: Decrease number of seconds opening the gate (only works with the gate closed)");
+  Serial.println("12- TEST: Close the gate");
+  Serial.println("13- TEST: Open the gate");
+
+  
   
   Serial.println("99- Get all configs");
   Serial.println("100- Exit from configurantion mode");
@@ -146,6 +151,7 @@ boolean processCommand(String commandTmp)
     
     case 5:
       return watchMyChicken.feedsTheChickens();
+      Serial.println("Was feeded the chickens");
     break;
 
     case 6:
@@ -165,6 +171,18 @@ boolean processCommand(String commandTmp)
     
     case 10:
       return watchMyChicken.calibrateSetMaximumWaterTank();
+    break;
+    
+    case 11:
+      Serial.println("TODO");
+      return false;
+    break;
+    case 12:
+      return watchMyChicken.openTheGate();
+    break;
+
+    case 13:
+      return watchMyChicken.closeTheGate();
     break;
     
     case 99:
