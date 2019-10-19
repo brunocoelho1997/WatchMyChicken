@@ -110,13 +110,23 @@
   bool WatchMyChicken::feedsTheChickens()
   {
     int numberOfSteps;
-
+    int numberOfSecondsFeeding;
+    
     numberOfSteps = definedStepsByConfig == 0 ? NUMBER_STEPS_DEFAULT : definedStepsByConfig;
     
     stepperMotorFood.setSpeed(STEPPER_SPEED);
     
     // step 1/100 of a revolution:
     stepperMotorFood.step(STEPPER_STEPS_PER_REV / 100 * numberOfSteps);
+
+    //open
+    numberOfSecondsFeeding = feedMilliSecondsConfig == 0 ? MILLISECONDS_FEEDING_CONFIG : feedMilliSecondsConfig;
+    
+    delay(numberOfSecondsFeeding);
+
+    //close
+    stepperMotorFood.step(-(STEPPER_STEPS_PER_REV / 100 * numberOfSteps));
+    
 
     return true;    
   }

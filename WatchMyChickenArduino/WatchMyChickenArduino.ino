@@ -205,6 +205,7 @@ boolean processCommand(String commandTmp)
 
     case 100:
       isConfigurationMode = false;
+      Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
     break;
   }
 

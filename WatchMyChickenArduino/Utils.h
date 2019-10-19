@@ -35,9 +35,9 @@ const int STEPPER_MOTOR_IN4 = 5;
 // Stepper Motor - Number of steps per output rotation
 const int STEPPER_STEPS_PER_REV = 200;
 const int STEPPER_SPEED = 40;
-const int NUMBER_STEPS_DEFAULT = 70;
-const int STEPPER_CONFIG_INTERVAL = 25;
-
+const int NUMBER_STEPS_DEFAULT = 5;
+const int STEPPER_CONFIG_INTERVAL = 1;
+const int MILLISECONDS_FEEDING_CONFIG = 5000;
 
 //constants of relay (when open the water to the chickens)
 const int PIN_WATER_RELAY = 6;
