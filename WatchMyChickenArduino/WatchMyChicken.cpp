@@ -5,7 +5,7 @@
   Stepper stepperMotorFood(STEPPER_STEPS_PER_REV, STEPPER_MOTOR_IN1, STEPPER_MOTOR_IN2, STEPPER_MOTOR_IN3, STEPPER_MOTOR_IN4);
     
   WatchMyChicken::WatchMyChicken(){    
-    isGateClosed = true;
+    isGateClosedVar = true;
   }
   
   /*
@@ -244,7 +244,7 @@
 
     int numberOfSecondsGate;
 
-    if(!isGateClosed)
+    if(!isGateClosedVar)
       return false;
       
     numberOfSecondsGate = gateMilliSecondsConfig == 0 ? MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE : gateMilliSecondsConfig;
@@ -259,7 +259,7 @@
     
     digitalWrite(PIN_OPEN_GATE_RELAY, LOW);
   
-    isGateClosed = false;
+    isGateClosedVar = false;
       
     return true;
   }
@@ -268,7 +268,7 @@
   {
     int numberOfSecondsGate;
 
-    if(isGateClosed)
+    if(isGateClosedVar)
       return false;
     
     numberOfSecondsGate = gateMilliSecondsConfig == 0 ? MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE : gateMilliSecondsConfig;
@@ -283,7 +283,7 @@
     
     digitalWrite(PIN_CLOSE_GATE_RELAY, LOW);
 
-    isGateClosed = true;
+    isGateClosedVar = true;
       
     return true;
   }
@@ -294,7 +294,7 @@
 //    Serial.print("isGateClosed: ");
 //    Serial.println(isGateClosed);
       
-    if(!isGateClosed)
+    if(!isGateClosedVar)
       return false;
     
     gateMilliSecondsConfig = gateMilliSecondsConfig + MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE; 
@@ -308,7 +308,7 @@
 //    Serial.print("isGateClosed: ");
 //    Serial.println(isGateClosed);
 
-    if(!isGateClosed)
+    if(!isGateClosedVar)
       return false;
     
     if(gateMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE < 0)
@@ -324,9 +324,9 @@
     return gateMilliSecondsConfig != 0 ? gateMilliSecondsConfig : MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE;
   }
 
-  bool WatchMyChicken::isGateOpen()
+  bool WatchMyChicken::isGateClosed()
   {
-    return isGateClosed;
+    return isGateClosedVar;
   }
 
   

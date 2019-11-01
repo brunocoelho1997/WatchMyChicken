@@ -80,21 +80,21 @@ void loop() {
     watchMyChicken.verifyMinimunWater();
 
     //if is night and the gate is open...
-    if(watchMyChicken.isNight() && watchMyChicken.isGateOpen())
-    {
+    if(watchMyChicken.isNight() && !watchMyChicken.isGateClosed())
+    {  
         watchMyChicken.feedsTheChickens();
         watchMyChicken.openTheWater();
 
         delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
-        
+   
         watchMyChicken.closeTheGate();
     }
     //if is day and the gate is closed...
-    else if(!watchMyChicken.isNight() && !watchMyChicken.isGateOpen())
+    else if(!watchMyChicken.isNight() && watchMyChicken.isGateClosed())
     {
         watchMyChicken.feedsTheChickens();
         watchMyChicken.openTheWater();
-
+                
         watchMyChicken.openTheGate();
     }
   }

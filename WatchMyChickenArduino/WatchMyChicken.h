@@ -40,7 +40,7 @@ class WatchMyChicken
     bool decreaseGateNumberOfMilliseconds();
     bool openTheGate();
     bool closeTheGate();
-    bool isGateOpen();
+    bool isGateClosed();
     
         
   private:
@@ -64,7 +64,7 @@ class WatchMyChicken
     int openedWaterMilliSecondsConfig;
 
 
-    bool isGateClosed;
+    bool isGateClosedVar;
     //number of seconds that the motor of the gate will work to open and close
     int gateMilliSecondsConfig;
     
