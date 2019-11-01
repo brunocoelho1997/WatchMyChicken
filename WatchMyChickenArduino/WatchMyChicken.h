@@ -40,7 +40,7 @@ class WatchMyChicken
     bool decreaseGateNumberOfMilliseconds();
     bool openTheGate();
     bool closeTheGate();
-    
+    bool isGateOpen();
     
         
   private:

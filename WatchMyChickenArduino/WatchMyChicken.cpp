@@ -291,8 +291,8 @@
   bool WatchMyChicken::increaseGateNumberOfMilliseconds()
   {
 
-    Serial.print("isGateClosed: ");
-      Serial.println(isGateClosed);
+//    Serial.print("isGateClosed: ");
+//    Serial.println(isGateClosed);
       
     if(!isGateClosed)
       return false;
@@ -303,11 +303,11 @@
   }
 
   bool WatchMyChicken::decreaseGateNumberOfMilliseconds()
-  {
+  {      
 
-Serial.print("isGateClosed: ");
-      Serial.println(isGateClosed);
-      
+//    Serial.print("isGateClosed: ");
+//    Serial.println(isGateClosed);
+
     if(!isGateClosed)
       return false;
     
@@ -322,6 +322,11 @@ Serial.print("isGateClosed: ");
   int WatchMyChicken::getTheNumberOfSecondsOpenCloseGate()
   {
     return gateMilliSecondsConfig != 0 ? gateMilliSecondsConfig : MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE;
+  }
+
+  bool WatchMyChicken::isGateOpen()
+  {
+    return isGateClosed;
   }
 
   

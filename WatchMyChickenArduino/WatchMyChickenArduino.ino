@@ -79,15 +79,25 @@ void loop() {
 
     watchMyChicken.verifyMinimunWater();
 
-      /*
-       * 
-  pinMode(8, OUTPUT); 
-      digitalWrite(8, HIGH);
-      delay(2000);
-      digitalWrite(8, LOW);
-      delay(2000);*/
+    //if is night and the gate is open...
+    if(watchMyChicken.isNight() && watchMyChicken.isGateOpen())
+    {
+        watchMyChicken.feedsTheChickens();
+        watchMyChicken.openTheWater();
+
+        delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
+        
+        watchMyChicken.closeTheGate();
+    }
+    //if is day and the gate is closed...
+    else if(!watchMyChicken.isNight() && !watchMyChicken.isGateOpen())
+    {
+        watchMyChicken.feedsTheChickens();
+        watchMyChicken.openTheWater();
+
+        watchMyChicken.openTheGate();
+    }
   }
-  
 }
 
 void printConfigCommands()
