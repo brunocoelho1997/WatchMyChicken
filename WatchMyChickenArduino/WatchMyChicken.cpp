@@ -5,8 +5,9 @@
   Stepper stepperMotorFood(STEPPER_STEPS_PER_REV, STEPPER_MOTOR_IN1, STEPPER_MOTOR_IN2, STEPPER_MOTOR_IN3, STEPPER_MOTOR_IN4);
     
   WatchMyChicken::WatchMyChicken(){    
+    isGateClosed = true;
   }
-
+  
   /*
   * Get the actual state of the food tank (0 - 100%)
   */
@@ -220,7 +221,7 @@
     return openedWaterMilliSecondsConfig != 0 ? openedWaterMilliSecondsConfig : OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT;
   }
 
-  bool WatchMyChicken::increaseNumberOfMilliseconds()
+  bool WatchMyChicken::increaseWaterNumberOfMilliseconds()
   {
     
     openedWaterMilliSecondsConfig = openedWaterMilliSecondsConfig + MILLISECONDS_CONFIG_INTERVAL; 
@@ -228,7 +229,7 @@
     return true;
   }
 
-  bool WatchMyChicken::decreaseNumberOfMilliseconds()
+  bool WatchMyChicken::decreaseWaterNumberOfMilliseconds()
   {
     if(openedWaterMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL < 0)
       return false;
@@ -241,38 +242,87 @@
   bool WatchMyChicken::openTheGate()
   {
 
+    int numberOfSecondsGate;
+
+    if(!isGateClosed)
+      return false;
+      
+    numberOfSecondsGate = gateMilliSecondsConfig == 0 ? MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE : gateMilliSecondsConfig;
+    
     digitalWrite(PIN_OPEN_GATE_RELAY,HIGH);
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,HIGH);
     
-    delay(MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE);
+    delay(numberOfSecondsGate);
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
     
     digitalWrite(PIN_OPEN_GATE_RELAY, LOW);
   
+    isGateClosed = false;
       
     return true;
   }
   
   bool WatchMyChicken::closeTheGate()
   {
+    int numberOfSecondsGate;
 
+    if(isGateClosed)
+      return false;
+    
+    numberOfSecondsGate = gateMilliSecondsConfig == 0 ? MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE : gateMilliSecondsConfig;
+    
     digitalWrite(PIN_CLOSE_GATE_RELAY,HIGH);
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,HIGH);
     
-    delay(MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE);
+    delay(numberOfSecondsGate);
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
     
     digitalWrite(PIN_CLOSE_GATE_RELAY, LOW);
-  
+
+    isGateClosed = true;
       
     return true;
   }
 
-  
+  bool WatchMyChicken::increaseGateNumberOfMilliseconds()
+  {
+
+    Serial.print("isGateClosed: ");
+      Serial.println(isGateClosed);
+      
+    if(!isGateClosed)
+      return false;
+    
+    gateMilliSecondsConfig = gateMilliSecondsConfig + MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE; 
+
+    return true;
+  }
+
+  bool WatchMyChicken::decreaseGateNumberOfMilliseconds()
+  {
+
+Serial.print("isGateClosed: ");
+      Serial.println(isGateClosed);
+      
+    if(!isGateClosed)
+      return false;
+    
+    if(gateMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE < 0)
+      return false;
+      
+    gateMilliSecondsConfig = gateMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE; 
+
+    return true;
+  }
+
+  int WatchMyChicken::getTheNumberOfSecondsOpenCloseGate()
+  {
+    return gateMilliSecondsConfig != 0 ? gateMilliSecondsConfig : MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE;
+  }
 
   
   

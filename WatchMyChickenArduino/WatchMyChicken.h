@@ -27,16 +27,17 @@ class WatchMyChicken
 
     bool openTheWater();
     int getTheNumberOfSecondsOpenedWater();
-    bool increaseNumberOfMilliseconds();
-    bool decreaseNumberOfMilliseconds();
-
+    bool increaseWaterNumberOfMilliseconds();
+    bool decreaseWaterNumberOfMilliseconds();
+    
     bool calibrateSetMaximumWaterTank();
     bool calibrateSetMaximumFoodTank();
-
     bool verifyMinimunFood();
-    
     bool verifyMinimunWater();
 
+    int getTheNumberOfSecondsOpenCloseGate();
+    bool increaseGateNumberOfMilliseconds();
+    bool decreaseGateNumberOfMilliseconds();
     bool openTheGate();
     bool closeTheGate();
     

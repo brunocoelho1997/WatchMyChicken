@@ -34,8 +34,8 @@ const int STEPPER_MOTOR_IN4 = 5;
 
 // Stepper Motor - Number of steps per output rotation
 const int STEPPER_STEPS_PER_REV = 200;
-const int STEPPER_SPEED = 40;
-const int NUMBER_STEPS_DEFAULT = 5;
+const int STEPPER_SPEED = 100;
+const int NUMBER_STEPS_DEFAULT = 10;
 const int STEPPER_CONFIG_INTERVAL = 1;
 const int MILLISECONDS_FEEDING_CONFIG = 5000;
 
@@ -48,4 +48,4 @@ const int MILLISECONDS_CONFIG_INTERVAL = 1000;
 const int PIN_OPEN_CLOSE_GATE_RELAY = 7; //if this PIN are setted as low the gate will not open neither close
 const int PIN_OPEN_GATE_RELAY = 8;
 const int PIN_CLOSE_GATE_RELAY = 9;
-const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 3000;
+const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 2000;

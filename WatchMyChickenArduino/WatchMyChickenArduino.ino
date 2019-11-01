@@ -64,20 +64,20 @@ void loop() {
   if(!isConfigurationMode)
   {
     bool isNight = watchMyChicken.isNight();
-      Serial.print("isNight: ");
-      Serial.println(isNight);
+    Serial.print("isNight: ");
+    Serial.println(isNight);
 
-      double foodTankState = watchMyChicken.getFoodTankState();
-      Serial.print("Food Tank State: ");
-      Serial.println(foodTankState);
+    double foodTankState = watchMyChicken.getFoodTankState();
+    Serial.print("Food Tank State: ");
+    Serial.println(foodTankState);
 
-      double waterTankState = watchMyChicken.getWaterTankState();
-      Serial.print("Water Tank State: ");
-      Serial.println(waterTankState);
+    double waterTankState = watchMyChicken.getWaterTankState();
+    Serial.print("Water Tank State: ");
+    Serial.println(waterTankState);
 
-      watchMyChicken.verifyMinimunFood();
+    watchMyChicken.verifyMinimunFood();
 
-      watchMyChicken.verifyMinimunWater();
+    watchMyChicken.verifyMinimunWater();
 
       /*
        * 
@@ -107,10 +107,11 @@ void printConfigCommands()
   Serial.println("9- Calibration: Set as maximum food");
   Serial.println("10- Calibration: Set as maximum water");
 
-  Serial.println("11- Config: Decrease number of seconds opening the gate (only works with the gate closed)");
-  Serial.println("12- TEST: Close the gate");
+  Serial.println("11- Config: Increase number of seconds opening/closing the gate (only works with the gate closed)");
+  Serial.println("12- Config: Decrease number of seconds opening/closing the gate (only works with the gate closed)");
   Serial.println("13- TEST: Open the gate");
-
+  Serial.println("14- TEST: Close the gate");
+  
   
   
   Serial.println("99- Get all configs");
@@ -155,11 +156,11 @@ boolean processCommand(String commandTmp)
     break;
 
     case 6:
-      return watchMyChicken.increaseNumberOfMilliseconds();
+      return watchMyChicken.increaseWaterNumberOfMilliseconds();
     break;
     
     case 7:
-      return watchMyChicken.decreaseNumberOfMilliseconds();
+      return watchMyChicken.decreaseWaterNumberOfMilliseconds();
     break;
     case 8:
       return watchMyChicken.openTheWater();
@@ -174,14 +175,20 @@ boolean processCommand(String commandTmp)
     break;
     
     case 11:
-      Serial.println("TODO");
+      return watchMyChicken.increaseGateNumberOfMilliseconds();
       return false;
     break;
+    
     case 12:
+      return watchMyChicken.decreaseGateNumberOfMilliseconds();
+      return false;
+    break;
+    
+    case 13:
       return watchMyChicken.openTheGate();
     break;
 
-    case 13:
+    case 14:
       return watchMyChicken.closeTheGate();
     break;
     
@@ -198,6 +205,9 @@ boolean processCommand(String commandTmp)
 
       Serial.print("Number of milliseconds as open water:");
       Serial.println(watchMyChicken.getTheNumberOfSecondsOpenedWater());
+
+      Serial.print("Number of milliseconds configured to open and close the gate:");
+      Serial.println(watchMyChicken.getTheNumberOfSecondsOpenCloseGate());
       
       Serial.println("------------------------------------");
       return true;  
