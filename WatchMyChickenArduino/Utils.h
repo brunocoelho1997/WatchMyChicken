@@ -48,4 +48,7 @@ const int MILLISECONDS_CONFIG_INTERVAL = 1000;
 const int PIN_OPEN_CLOSE_GATE_RELAY = 7; //if this PIN are setted as low the gate will not open neither close
 const int PIN_OPEN_GATE_RELAY = 8;
 const int PIN_CLOSE_GATE_RELAY = 9;
-const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 2000;
+const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 1000;
+//gate sensors pins
+const int OPENED_GATE_SWITCH_PIN_SENSOR = A2;
+const int CLOSED_GATE_SWITCH_PIN_SENSOR = A3;

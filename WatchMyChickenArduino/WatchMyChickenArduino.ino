@@ -75,27 +75,42 @@ void loop() {
     Serial.print("Water Tank State: ");
     Serial.println(waterTankState);
 
+    Serial.print("Is gate opened:");
+    Serial.println(watchMyChicken.isGateOpened());
+
+    Serial.print("Is gate closed:");
+    Serial.println(watchMyChicken.isGateClosed());
+
     watchMyChicken.verifyMinimunFood();
 
     watchMyChicken.verifyMinimunWater();
 
     //if is night and the gate is open...
-    if(watchMyChicken.isNight() && !watchMyChicken.isGateClosed())
+    if(watchMyChicken.isNight() && watchMyChicken.isGateOpened())
     {  
-        watchMyChicken.feedsTheChickens();
-        watchMyChicken.openTheWater();
+        //watchMyChicken.feedsTheChickens();
+        //watchMyChicken.openTheWater();
 
-        delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
+        //delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
+
+        Serial.print("vai fechar portao");
    
         watchMyChicken.closeTheGate();
+
+        delay(2000);
     }
     //if is day and the gate is closed...
     else if(!watchMyChicken.isNight() && watchMyChicken.isGateClosed())
     {
-        watchMyChicken.feedsTheChickens();
-        watchMyChicken.openTheWater();
+        //watchMyChicken.feedsTheChickens();
+        //watchMyChicken.openTheWater();
+
                 
+        Serial.print("vai abrir portao");
+        
         watchMyChicken.openTheGate();
+
+        delay(2000);
     }
   }
 }
@@ -117,8 +132,6 @@ void printConfigCommands()
   Serial.println("9- Calibration: Set as maximum food");
   Serial.println("10- Calibration: Set as maximum water");
 
-  Serial.println("11- Config: Increase number of seconds opening/closing the gate (only works with the gate closed)");
-  Serial.println("12- Config: Decrease number of seconds opening/closing the gate (only works with the gate closed)");
   Serial.println("13- TEST: Open the gate");
   Serial.println("14- TEST: Close the gate");
   
@@ -184,16 +197,6 @@ boolean processCommand(String commandTmp)
       return watchMyChicken.calibrateSetMaximumWaterTank();
     break;
     
-    case 11:
-      return watchMyChicken.increaseGateNumberOfMilliseconds();
-      return false;
-    break;
-    
-    case 12:
-      return watchMyChicken.decreaseGateNumberOfMilliseconds();
-      return false;
-    break;
-    
     case 13:
       return watchMyChicken.openTheGate();
     break;
@@ -216,16 +219,19 @@ boolean processCommand(String commandTmp)
       Serial.print("Number of milliseconds as open water:");
       Serial.println(watchMyChicken.getTheNumberOfSecondsOpenedWater());
 
-      Serial.print("Number of milliseconds configured to open and close the gate:");
-      Serial.println(watchMyChicken.getTheNumberOfSecondsOpenCloseGate());
-      
+      Serial.print("Is gate opened:");
+      Serial.println(watchMyChicken.isGateOpened());
+
+      Serial.print("Is gate closed:");
+      Serial.println(watchMyChicken.isGateClosed());
+
       Serial.println("------------------------------------");
       return true;  
     break;
 
     case 100:
       isConfigurationMode = false;
-      Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
+      //Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
     break;
   }
 

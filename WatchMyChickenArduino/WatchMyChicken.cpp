@@ -5,7 +5,8 @@
   Stepper stepperMotorFood(STEPPER_STEPS_PER_REV, STEPPER_MOTOR_IN1, STEPPER_MOTOR_IN2, STEPPER_MOTOR_IN3, STEPPER_MOTOR_IN4);
     
   WatchMyChicken::WatchMyChicken(){    
-    isGateClosedVar = true;
+//    isGateClosedVar = true;
+
   }
   
   /*
@@ -242,91 +243,55 @@
   bool WatchMyChicken::openTheGate()
   {
 
-    int numberOfSecondsGate;
-
-    if(!isGateClosedVar)
-      return false;
-      
-    numberOfSecondsGate = gateMilliSecondsConfig == 0 ? MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE : gateMilliSecondsConfig;
-    
     digitalWrite(PIN_OPEN_GATE_RELAY,HIGH);
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,HIGH);
     
-    delay(numberOfSecondsGate);
+    while(!isGateOpened())
+    {
+      delay(MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE);
+    }
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
     
     digitalWrite(PIN_OPEN_GATE_RELAY, LOW);
   
-    isGateClosedVar = false;
-      
     return true;
   }
   
   bool WatchMyChicken::closeTheGate()
   {
-    int numberOfSecondsGate;
 
-    if(isGateClosedVar)
-      return false;
-    
-    numberOfSecondsGate = gateMilliSecondsConfig == 0 ? MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE : gateMilliSecondsConfig;
-    
+    delay(1000);
+
     digitalWrite(PIN_CLOSE_GATE_RELAY,HIGH);
-  
+
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,HIGH);
     
-    delay(numberOfSecondsGate);
+    while(!isGateClosed())
+    {
+      delay(5000);
+    }
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
     
     digitalWrite(PIN_CLOSE_GATE_RELAY, LOW);
-
-    isGateClosedVar = true;
-      
+  
     return true;
-  }
-
-  bool WatchMyChicken::increaseGateNumberOfMilliseconds()
-  {
-
-//    Serial.print("isGateClosed: ");
-//    Serial.println(isGateClosed);
-      
-    if(!isGateClosedVar)
-      return false;
-    
-    gateMilliSecondsConfig = gateMilliSecondsConfig + MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE; 
-
-    return true;
-  }
-
-  bool WatchMyChicken::decreaseGateNumberOfMilliseconds()
-  {      
-
-//    Serial.print("isGateClosed: ");
-//    Serial.println(isGateClosed);
-
-    if(!isGateClosedVar)
-      return false;
-    
-    if(gateMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE < 0)
-      return false;
-      
-    gateMilliSecondsConfig = gateMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE; 
-
-    return true;
-  }
-
-  int WatchMyChicken::getTheNumberOfSecondsOpenCloseGate()
-  {
-    return gateMilliSecondsConfig != 0 ? gateMilliSecondsConfig : MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE;
   }
 
   bool WatchMyChicken::isGateClosed()
   {
-    return isGateClosedVar;
+    int value=analogRead(CLOSED_GATE_SWITCH_PIN_SENSOR);
+
+    return value > 1000;
+  }
+
+  bool WatchMyChicken::isGateOpened()
+  {
+    int value=analogRead(OPENED_GATE_SWITCH_PIN_SENSOR);
+    
+    return value > 1000;
   }
 
   
