@@ -58,29 +58,32 @@ void loop() {
         Serial.println("\nError processing the command.");
 
       if(isConfigurationMode)
-          printConfigCommands();
+      {
+        printConfigCommands();
+        secondsConfigMode = 0; 
+      }
     }
   }
 
   if(!isConfigurationMode)
   {
-    bool isNight = watchMyChicken.isNight();
-    Serial.print("isNight: ");
-    Serial.println(isNight);
-
-    double foodTankState = watchMyChicken.getFoodTankState();
-    Serial.print("Food Tank State: ");
-    Serial.println(foodTankState);
-
-    double waterTankState = watchMyChicken.getWaterTankState();
-    Serial.print("Water Tank State: ");
-    Serial.println(waterTankState);
-
-    Serial.print("Is gate opened:");
-    Serial.println(watchMyChicken.isGateOpened());
-
-    Serial.print("Is gate closed:");
-    Serial.println(watchMyChicken.isGateClosed());
+//    bool isNight = watchMyChicken.isNight();
+//    Serial.print("isNight: ");
+//    Serial.println(isNight);
+//
+//    double foodTankState = watchMyChicken.getFoodTankState();
+//    Serial.print("Food Tank State: ");
+//    Serial.println(foodTankState);
+//
+//    double waterTankState = watchMyChicken.getWaterTankState();
+//    Serial.print("Water Tank State: ");
+//    Serial.println(waterTankState);
+//
+//    Serial.print("Is gate opened:");
+//    Serial.println(watchMyChicken.isGateOpened());
+//
+//    Serial.print("Is gate closed:");
+//    Serial.println(watchMyChicken.isGateClosed());
 
     watchMyChicken.verifyMinimunFood();
 
@@ -109,14 +112,16 @@ void loop() {
   {
     secondsConfigMode = secondsConfigMode + DELAY_MAIN_LOOP;
 
-    Serial.print("secondsConfigMode:");
-    Serial.println(secondsConfigMode);
+    //Serial.print("secondsConfigMode:");
+    //Serial.println(secondsConfigMode);
     
     if(secondsConfigMode >= SECONDS_WAITING_CONFIG_MODE)
     {
       Serial.print("Will close the configuration mode.");
       
       isConfigurationMode = false;
+
+      Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
     }
   }
 
@@ -239,7 +244,7 @@ boolean processCommand(String commandTmp)
 
     case 100:
       isConfigurationMode = false;
-      //Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
+      Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
     break;
   }
 
