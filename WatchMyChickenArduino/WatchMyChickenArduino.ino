@@ -3,6 +3,7 @@
 WatchMyChicken watchMyChicken; //the object which control the system
 
 bool isConfigurationMode = true;
+int secondsConfigMode = 0;
 
 void setup() {
 
@@ -88,31 +89,38 @@ void loop() {
     //if is night and the gate is open...
     if(watchMyChicken.isNight() && watchMyChicken.isGateOpened())
     {  
-        //watchMyChicken.feedsTheChickens();
-        //watchMyChicken.openTheWater();
+        watchMyChicken.feedsTheChickens();
+        watchMyChicken.openTheWater();
 
         //delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
-
-        Serial.print("vai fechar portao");
-   
+        
         watchMyChicken.closeTheGate();
-
-        delay(2000);
     }
     //if is day and the gate is closed...
     else if(!watchMyChicken.isNight() && watchMyChicken.isGateClosed())
     {
-        //watchMyChicken.feedsTheChickens();
-        //watchMyChicken.openTheWater();
+        watchMyChicken.feedsTheChickens();
+        watchMyChicken.openTheWater();
 
-                
-        Serial.print("vai abrir portao");
-        
         watchMyChicken.openTheGate();
-
-        delay(2000);
     }
   }
+  else
+  {
+    secondsConfigMode = secondsConfigMode + DELAY_MAIN_LOOP;
+
+    Serial.print("secondsConfigMode:");
+    Serial.println(secondsConfigMode);
+    
+    if(secondsConfigMode >= SECONDS_WAITING_CONFIG_MODE)
+    {
+      Serial.print("Will close the configuration mode.");
+      
+      isConfigurationMode = false;
+    }
+  }
+
+  delay(500);
 }
 
 void printConfigCommands()

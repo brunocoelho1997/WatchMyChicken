@@ -1,5 +1,10 @@
 //Pins 
 
+const int SECONDS_WAITING_CONFIG_MODE = 30000;
+
+const int DELAY_MAIN_LOOP = 500;
+
+
 //food level sensor pins
 const int TRIG_PIN_FOOD_TANK = 10;
 const int ECHO_PIN_FOOD_TANK = 11;
