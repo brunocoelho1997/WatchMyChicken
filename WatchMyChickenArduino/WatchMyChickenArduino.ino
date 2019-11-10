@@ -67,46 +67,59 @@ void loop() {
 
   if(!isConfigurationMode)
   {
-//    bool isNight = watchMyChicken.isNight();
-//    Serial.print("isNight: ");
-//    Serial.println(isNight);
-//
-//    double foodTankState = watchMyChicken.getFoodTankState();
-//    Serial.print("Food Tank State: ");
-//    Serial.println(foodTankState);
-//
-//    double waterTankState = watchMyChicken.getWaterTankState();
-//    Serial.print("Water Tank State: ");
-//    Serial.println(waterTankState);
-//
-//    Serial.print("Is gate opened:");
-//    Serial.println(watchMyChicken.isGateOpened());
-//
-//    Serial.print("Is gate closed:");
-//    Serial.println(watchMyChicken.isGateClosed());
+    bool isNight = watchMyChicken.isNight();
+    Serial.print("isNight: ");
+    Serial.println(isNight);
 
-    watchMyChicken.verifyMinimunFood();
+    double foodTankState = watchMyChicken.getFoodTankState();
+    Serial.print("Food Tank State: ");
+    Serial.println(foodTankState);
 
-    watchMyChicken.verifyMinimunWater();
+    double waterTankState = watchMyChicken.getWaterTankState();
+    Serial.print("Water Tank State: ");
+    Serial.println(waterTankState);
+
+    Serial.print("Is gate opened:");
+    Serial.println(watchMyChicken.isGateOpened());
+
+    Serial.print("Is gate closed:");
+    Serial.println(watchMyChicken.isGateClosed());
+
+//    watchMyChicken.verifyMinimunFood();
+//
+//    watchMyChicken.verifyMinimunWater();
 
     //if is night and the gate is open...
     if(watchMyChicken.isNight() && watchMyChicken.isGateOpened())
     {  
-        watchMyChicken.feedsTheChickens();
-        watchMyChicken.openTheWater();
+//        watchMyChicken.feedsTheChickens();
+//        watchMyChicken.openTheWater();
 
         //delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
         
         watchMyChicken.closeTheGate();
+
+        watchMyChicken.verifyMinimunFood();
+
+        watchMyChicken.verifyMinimunWater();
     }
     //if is day and the gate is closed...
     else if(!watchMyChicken.isNight() && watchMyChicken.isGateClosed())
     {
-        watchMyChicken.feedsTheChickens();
-        watchMyChicken.openTheWater();
+//        watchMyChicken.feedsTheChickens();
+//        watchMyChicken.openTheWater();
 
         watchMyChicken.openTheGate();
+
+        watchMyChicken.verifyMinimunFood();
+
+        watchMyChicken.verifyMinimunWater();
     }
+
+    digitalWrite(LED_PIN_LOW_FOOD_AND_WATER, HIGH);
+    delay(MILLISECONDS_CONFIG_DELAY_LEDS);
+    digitalWrite(LED_PIN_LOW_FOOD_AND_WATER, LOW);
+    delay(MILLISECONDS_CONFIG_DELAY_LEDS);
   }
   else
   {
@@ -125,7 +138,7 @@ void loop() {
     }
   }
 
-  delay(500);
+  delay(DELAY_MAIN_LOOP);
 }
 
 void printConfigCommands()

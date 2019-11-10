@@ -81,8 +81,8 @@
   }
 
   bool WatchMyChicken::verifyMinimumTankState(double actualState, int ledPinToBlink)
-  {
-    if(actualState < MILLISECONDS_CONFIG_MINIMUM_TANK_STATE)
+  { 
+    if(actualState < CONFIG_MINIMUM_TANK_STATE)
     {
       digitalWrite(ledPinToBlink, HIGH);
       delay(MILLISECONDS_CONFIG_DELAY_LEDS);
@@ -270,7 +270,7 @@
     
     while(!isGateClosed())
     {
-      delay(5000);
+      delay(MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE);
     }
   
     digitalWrite(PIN_OPEN_CLOSE_GATE_RELAY,LOW);
@@ -284,14 +284,14 @@
   {
     int value=analogRead(CLOSED_GATE_SWITCH_PIN_SENSOR);
 
-    return value > 1000;
+    return value < 1000;
   }
 
   bool WatchMyChicken::isGateOpened()
   {
     int value=analogRead(OPENED_GATE_SWITCH_PIN_SENSOR);
     
-    return value > 1000;
+    return value < 1000;
   }
 
   

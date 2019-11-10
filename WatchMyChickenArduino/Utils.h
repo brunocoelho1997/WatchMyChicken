@@ -18,7 +18,7 @@ const int ECHO_PIN_WATER_TANK = 13;
 const int MILLISECONDS_CONFIG_DELAY_LEDS = 1000;
 
 //if the percentage of the tank is lower tha  20 the arduino active a led
-const int MILLISECONDS_CONFIG_MINIMUM_TANK_STATE = 20;
+const int CONFIG_MINIMUM_TANK_STATE = 20;
 
 //used by water and food level sensor calculus
 const double SOUND_AIR_SPEED = 0.034;
@@ -53,7 +53,7 @@ const int MILLISECONDS_CONFIG_INTERVAL = 1000;
 const int PIN_OPEN_CLOSE_GATE_RELAY = 7; //if this PIN are setted as low the gate will not open neither close
 const int PIN_OPEN_GATE_RELAY = 8;
 const int PIN_CLOSE_GATE_RELAY = 9;
-const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 1000;
+const int MILLISECONDS_CONFIG_INTERVAL_CLOSE_OPEN_GATE = 50;
 //gate sensors pins
 const int OPENED_GATE_SWITCH_PIN_SENSOR = A2;
 const int CLOSED_GATE_SWITCH_PIN_SENSOR = A3;
