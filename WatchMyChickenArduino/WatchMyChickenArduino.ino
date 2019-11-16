@@ -11,20 +11,36 @@ void setup() {
    * Sets the trigPins as an Output
    * Sets the echoPin as an Input
    */
-  pinMode(TRIG_PIN_FOOD_TANK, OUTPUT); 
-  pinMode(ECHO_PIN_FOOD_TANK, INPUT);
-  pinMode(LED_PIN_LOW_FOOD_AND_WATER, OUTPUT);
-  
-  pinMode(TRIG_PIN_WATER_TANK, OUTPUT); 
-  pinMode(ECHO_PIN_WATER_TANK, INPUT);
-  
-  pinMode(TEMPERATURE_PIN_SENSOR, INPUT);
 
+
+  pinMode(LED_PIN_PING, OUTPUT);
+  
+  pinMode(LED_PIN_LOW_FOOD_AND_WATER, OUTPUT);
+
+  pinMode(STEPPER_MOTOR_IN1, OUTPUT);
+  pinMode(STEPPER_MOTOR_IN2, OUTPUT);
+  pinMode(STEPPER_MOTOR_IN3, OUTPUT);
+  pinMode(STEPPER_MOTOR_IN4, OUTPUT);
+  
   pinMode(PIN_WATER_RELAY, OUTPUT);
 
   pinMode(PIN_OPEN_CLOSE_GATE_RELAY, OUTPUT); 
   pinMode(PIN_OPEN_GATE_RELAY, OUTPUT); 
-  pinMode(PIN_CLOSE_GATE_RELAY, OUTPUT); 
+  pinMode(PIN_CLOSE_GATE_RELAY, OUTPUT);
+
+  pinMode(TRIG_PIN_FOOD_TANK, OUTPUT);
+  pinMode(ECHO_PIN_FOOD_TANK, INPUT);
+
+  pinMode(TRIG_PIN_WATER_TANK, OUTPUT); 
+  pinMode(ECHO_PIN_WATER_TANK, INPUT);
+    
+  pinMode(TEMPERATURE_PIN_SENSOR, INPUT);
+  
+  pinMode(PHOTOCELL_PIN_SENSOR, INPUT);
+  
+  pinMode(OPENED_GATE_SWITCH_PIN_SENSOR, INPUT);
+  
+  pinMode(CLOSED_GATE_SWITCH_PIN_SENSOR, INPUT);
   
   Serial.begin(9600); // Starts the serial communication
   Serial.println("Arduino ready to read commands.");
@@ -33,37 +49,28 @@ void setup() {
 
 void loop() {
 
-/*
-  double actualTemperature = watchMyChicken.getActualTemperature();
-  Serial.print("Actual Temperature: ");
-  Serial.println(actualTemperature);
-
-  watchMyChicken.feedsTheChickens();
-  Serial.println("Was feeded the chickens");
-  */
-
-  if (Serial.available() > 0) {
-
+  if(Serial.available() > 0)
+  {
     if(isConfigurationMode)
     {
       
       // read the incoming byte:
       String command = Serial.readString();
-
+  
       //Serial.println("Command printed: " + command);
-
+  
       boolean result = processCommand(command);
-
+  
       if(result == false)
         Serial.println("\nError processing the command.");
-
-      if(isConfigurationMode)
-      {
-        printConfigCommands();
-        secondsConfigMode = 0; 
-      }
+  
+      printConfigCommands();
+      
+      secondsConfigMode = 0;     
     }
   }
+  
+
 
   if(!isConfigurationMode)
   {
@@ -85,10 +92,6 @@ void loop() {
     Serial.print("Is gate closed:");
     Serial.println(watchMyChicken.isGateClosed());
 
-//    watchMyChicken.verifyMinimunFood();
-//
-//    watchMyChicken.verifyMinimunWater();
-
     //if is night and the gate is open...
     if(watchMyChicken.isNight() && watchMyChicken.isGateOpened())
     {  
@@ -99,9 +102,9 @@ void loop() {
         
         watchMyChicken.closeTheGate();
 
-        watchMyChicken.verifyMinimunFood();
+        //watchMyChicken.verifyMinimunFood();
 
-        watchMyChicken.verifyMinimunWater();
+        //watchMyChicken.verifyMinimunWater();
     }
     //if is day and the gate is closed...
     else if(!watchMyChicken.isNight() && watchMyChicken.isGateClosed())
@@ -111,22 +114,27 @@ void loop() {
 
         watchMyChicken.openTheGate();
 
-        watchMyChicken.verifyMinimunFood();
+        //watchMyChicken.verifyMinimunFood();
 
-        watchMyChicken.verifyMinimunWater();
+        //watchMyChicken.verifyMinimunWater();
     }
 
-    digitalWrite(LED_PIN_LOW_FOOD_AND_WATER, HIGH);
+    digitalWrite(LED_PIN_PING, HIGH);
+    
     delay(MILLISECONDS_CONFIG_DELAY_LEDS);
-    digitalWrite(LED_PIN_LOW_FOOD_AND_WATER, LOW);
+    
+    digitalWrite(LED_PIN_PING, LOW);
+    
     delay(MILLISECONDS_CONFIG_DELAY_LEDS);
+
+    delay(DELAY_SECONDS_NOT_CONFIGURATION_MODE * 1000); //only when we are not configuring the system the delay will be longer
   }
   else
   {
-    secondsConfigMode = secondsConfigMode + DELAY_MAIN_LOOP;
+    secondsConfigMode = secondsConfigMode + DELAY_SECONDS_CONFIGURATION_MODE;
 
-    //Serial.print("secondsConfigMode:");
-    //Serial.println(secondsConfigMode);
+    Serial.print("secondsConfigMode:");
+    Serial.println(secondsConfigMode);
     
     if(secondsConfigMode >= SECONDS_WAITING_CONFIG_MODE)
     {
@@ -134,39 +142,14 @@ void loop() {
       
       isConfigurationMode = false;
 
-      Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 1
+      Serial.end(); // finish the serial communication. Temporary line of code - since we are using arduino UNO and all I/O are used we need to use the pin 0 and 1
     }
+
+    delay(DELAY_SECONDS_CONFIGURATION_MODE * 1000); //when we are configuring the system the delay will be short duration (since we need to process the commands)
   }
-
-  delay(DELAY_MAIN_LOOP);
 }
 
-void printConfigCommands()
-{
-  Serial.println("Watch My Chikens Config:");
-  Serial.println("1- Config: Increase photocell delta");
-  Serial.println("2- Config: Decrease photocell delta");
-  
-  Serial.println("3- Config: Increase number of steps of step motor");
-  Serial.println("4- Config: Decrease number of steps of step motor");
-  Serial.println("5- TEST: feed the chickens");
-  
-  Serial.println("6- Config: Increase number of seconds as open");
-  Serial.println("7- Config: Decrease number of seconds as open");
-  Serial.println("8- TEST: open the water");
 
-  Serial.println("9- Calibration: Set as maximum food");
-  Serial.println("10- Calibration: Set as maximum water");
-
-  Serial.println("13- TEST: Open the gate");
-  Serial.println("14- TEST: Close the gate");
-  
-  
-  
-  Serial.println("99- Get all configs");
-  Serial.println("100- Exit from configurantion mode");
-  Serial.println("Command:");
-}
 
 boolean processCommand(String commandTmp)
 {
@@ -262,4 +245,31 @@ boolean processCommand(String commandTmp)
   }
 
   return false;
+}
+
+void printConfigCommands()
+{
+  Serial.println("Watch My Chikens Config:");
+  Serial.println("1- Config: Increase photocell delta");
+  Serial.println("2- Config: Decrease photocell delta");
+  
+  Serial.println("3- Config: Increase number of steps of step motor");
+  Serial.println("4- Config: Decrease number of steps of step motor");
+  Serial.println("5- TEST: feed the chickens");
+  
+  Serial.println("6- Config: Increase number of seconds as open");
+  Serial.println("7- Config: Decrease number of seconds as open");
+  Serial.println("8- TEST: open the water");
+
+  Serial.println("9- Calibration: Set as maximum food");
+  Serial.println("10- Calibration: Set as maximum water");
+
+  Serial.println("13- TEST: Open the gate");
+  Serial.println("14- TEST: Close the gate");
+  
+  
+  
+  Serial.println("99- Get all configs");
+  Serial.println("100- Exit from configurantion mode");
+  Serial.println("Command:");
 }

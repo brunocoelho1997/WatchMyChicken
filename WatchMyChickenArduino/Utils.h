@@ -1,9 +1,10 @@
 //Pins 
 
-const int SECONDS_WAITING_CONFIG_MODE = 30000;
+const int SECONDS_WAITING_CONFIG_MODE = 30; //can't set a higher value than 30000
 
-const int DELAY_MAIN_LOOP = 500;
+const int DELAY_SECONDS_CONFIGURATION_MODE = 1;
 
+const int DELAY_SECONDS_NOT_CONFIGURATION_MODE = 30;
 
 //food level sensor pins
 const int TRIG_PIN_FOOD_TANK = 10;
@@ -11,11 +12,14 @@ const int ECHO_PIN_FOOD_TANK = 11;
 
 const int LED_PIN_LOW_FOOD_AND_WATER = 1;
 
+const int LED_PIN_PING = 0;
+
+
 //water level sensor pins
 const int TRIG_PIN_WATER_TANK = 12;
 const int ECHO_PIN_WATER_TANK = 13;
 
-const int MILLISECONDS_CONFIG_DELAY_LEDS = 1000;
+const int MILLISECONDS_CONFIG_DELAY_LEDS = 2000;
 
 //if the percentage of the tank is lower tha  20 the arduino active a led
 const int CONFIG_MINIMUM_TANK_STATE = 20;
