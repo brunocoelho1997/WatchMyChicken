@@ -32,7 +32,7 @@ const int TEMPERATURE_PIN_SENSOR = A0;
 
 //photocell sensor constants
 const int PHOTOCELL_PIN_SENSOR = A1;
-const int DEFAULT_PHOTOCELL_DELTA = 100;
+const int DEFAULT_PHOTOCELL_DELTA = 200;
 const int PHOTOCELL_CONFIG_INTERVAL = 100;
 
 //stepper motor pins
