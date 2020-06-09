@@ -122,8 +122,10 @@
     stepperMotorFood.step(STEPPER_STEPS_PER_REV / 100 * numberOfSteps);
 
     //open
-    numberOfSecondsFeeding = feedMilliSecondsConfig == 0 ? MILLISECONDS_FEEDING_CONFIG : feedMilliSecondsConfig;
-    
+    numberOfSecondsFeeding = feedSecondsConfig == 0 ? SECONDS_FEEDING_CONFIG : feedSecondsConfig;
+
+    numberOfSecondsFeeding = numberOfSecondsFeeding * 1000;
+
     delay(numberOfSecondsFeeding);
 
     //close
@@ -168,8 +170,8 @@
     
     int photocellDeltaValue = photocellDefinedDelta != 0 ? photocellDefinedDelta : DEFAULT_PHOTOCELL_DELTA;
 
-    //Serial.print("Analog reading PHOTOCELL_PIN_SENSOR = ");
-    //Serial.println(photocellReading);
+    Serial.print("Analog reading PHOTOCELL_PIN_SENSOR = ");
+    Serial.println(photocellReading);
 
     return photocellReading < photocellDeltaValue ? true: false;
   }
@@ -208,9 +210,9 @@
     
     digitalWrite(PIN_WATER_RELAY, HIGH);
 
-    int numberOfMiliseconds =  openedWaterMilliSecondsConfig != 0 ? openedWaterMilliSecondsConfig : OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT;
+    int numberOfseconds =  openedWaterSecondsConfig != 0 ? openedWaterSecondsConfig : OPENED_WATER_SECONDS_CONFIG_DEFAULT;
     
-    delay(numberOfMiliseconds);
+    delay(numberOfseconds);
 
     digitalWrite(PIN_WATER_RELAY, LOW);
     
@@ -219,23 +221,23 @@
 
   int WatchMyChicken::getTheNumberOfSecondsOpenedWater()
   {
-    return openedWaterMilliSecondsConfig != 0 ? openedWaterMilliSecondsConfig : OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT;
+    return openedWaterSecondsConfig != 0 ? openedWaterSecondsConfig : OPENED_WATER_SECONDS_CONFIG_DEFAULT;
   }
 
   bool WatchMyChicken::increaseWaterNumberOfMilliseconds()
   {
     
-    openedWaterMilliSecondsConfig = openedWaterMilliSecondsConfig + MILLISECONDS_CONFIG_INTERVAL; 
+    openedWaterSecondsConfig = openedWaterSecondsConfig + SECONDS_CONFIG_INTERVAL; 
 
     return true;
   }
 
   bool WatchMyChicken::decreaseWaterNumberOfMilliseconds()
   {
-    if(openedWaterMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL < 0)
+    if(openedWaterSecondsConfig - SECONDS_CONFIG_INTERVAL < 0)
       return false;
       
-    openedWaterMilliSecondsConfig = openedWaterMilliSecondsConfig - MILLISECONDS_CONFIG_INTERVAL; 
+    openedWaterSecondsConfig = openedWaterSecondsConfig - SECONDS_CONFIG_INTERVAL; 
 
     return true;
   }

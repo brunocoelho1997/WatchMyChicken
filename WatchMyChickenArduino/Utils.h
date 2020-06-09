@@ -46,12 +46,12 @@ const int STEPPER_STEPS_PER_REV = 200;
 const int STEPPER_SPEED = 100;
 const int NUMBER_STEPS_DEFAULT = 10;
 const int STEPPER_CONFIG_INTERVAL = 1;
-const int MILLISECONDS_FEEDING_CONFIG = 5000;
+const int SECONDS_FEEDING_CONFIG = 5;
 
 //constants of relay (when open the water to the chickens)
 const int PIN_WATER_RELAY = 6;
-const int OPENED_WATER_MILLISECONDS_CONFIG_DEFAULT = 5000;
-const int MILLISECONDS_CONFIG_INTERVAL = 1000;
+const int OPENED_WATER_SECONDS_CONFIG_DEFAULT = 5;
+const int SECONDS_CONFIG_INTERVAL = 1;
 
 //
 const int PIN_OPEN_CLOSE_GATE_RELAY = 7; //if this PIN are setted as low the gate will not open neither close

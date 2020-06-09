@@ -54,13 +54,13 @@ class WatchMyChicken
     
     //number of steps defined by user in his configuration
     int definedStepsByConfig;
-    int feedMilliSecondsConfig;
+    int feedSecondsConfig;
 
     //delta used by photocell - if it isn't defined it will assume the default (DEFAULT_PHOTOCELL_DELTA) 
     int photocellDefinedDelta;
 
     //number of seconds that the water will be open
-    int openedWaterMilliSecondsConfig;
+    int openedWaterSecondsConfig;
     
     
     /*

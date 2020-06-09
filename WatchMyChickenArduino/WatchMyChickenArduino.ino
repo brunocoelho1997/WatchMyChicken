@@ -95,7 +95,7 @@ void loop() {
     //if is night and the gate is open...
     if(watchMyChicken.isNight() && watchMyChicken.isGateOpened())
     {  
-//        watchMyChicken.feedsTheChickens();
+        watchMyChicken.feedsTheChickens();
 //        watchMyChicken.openTheWater();
 
         //delay(5000); //5 seconds waiting to all chickens go inside the "house" and close the gate
@@ -109,7 +109,7 @@ void loop() {
     //if is day and the gate is closed...
     else if(!watchMyChicken.isNight() && watchMyChicken.isGateClosed())
     {
-//        watchMyChicken.feedsTheChickens();
+        watchMyChicken.feedsTheChickens();
 //        watchMyChicken.openTheWater();
 
         watchMyChicken.openTheGate();
@@ -133,8 +133,8 @@ void loop() {
   {
     secondsConfigMode = secondsConfigMode + DELAY_SECONDS_CONFIGURATION_MODE;
 
-    Serial.print("secondsConfigMode:");
-    Serial.println(secondsConfigMode);
+    //Serial.print("secondsConfigMode:");
+    //Serial.println(secondsConfigMode);
     
     if(secondsConfigMode >= SECONDS_WAITING_CONFIG_MODE)
     {
